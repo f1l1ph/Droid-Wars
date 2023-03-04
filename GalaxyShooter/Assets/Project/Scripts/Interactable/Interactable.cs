@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public interface IGun{
+	public Team Team { get ; set; }
+
 	public Transform GunTop { get; set; }
 	public void Shoot(Vector3 target) { }
 }

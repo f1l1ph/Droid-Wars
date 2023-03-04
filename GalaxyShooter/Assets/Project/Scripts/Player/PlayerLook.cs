@@ -13,9 +13,9 @@ public class PlayerLook : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
-		Vector2 lookDelta = Mouse.current.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
+		Vector2 lookDelta = mouseSensitivity * Mouse.current.delta.ReadValue();
 
 		float mouseX = lookDelta.x;
 		float mouseY = lookDelta.y;

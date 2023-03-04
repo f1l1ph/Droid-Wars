@@ -6,6 +6,8 @@ public class WeaponInventory : MonoBehaviour
 	[SerializeField] private GameObject[]	guns;
 	[SerializeField] private PlayerInput	input;
 	[SerializeField] private Transform		shootTop;
+	[SerializeField] private Team			team;
+	[SerializeField] private PlayerHealth	shealth;
 
 	private bool haveSelectedGun = false;
 	private IGun selectedGun;
@@ -29,6 +31,7 @@ public class WeaponInventory : MonoBehaviour
 			if (guns[i] == null)
 			{
 				guns[i] = gun;
+				guns[i].GetComponent<IGun>().Team = team;
 				SelectGun(i);
 				return;
 			}

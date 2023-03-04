@@ -1,14 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
+public enum Team
 {
+	Blue,
+	Red
+}
+
+public interface IDamagable
+{
+	public Team Team { get; set; }
+
+	public void Heal(float healthAmount);
+	public void Hit(float damage);
+}
+
+public class PlayerHealth : MonoBehaviour,IDamagable
+{
+	public Team Team { get; set; }
+	[SerializeField] private Team team;
+
 	[SerializeField] private float	maxHealth = 100;
 	[SerializeField] private Slider	healthSlider;
 	private float					health;
 
 	private void Start()
 	{
+		Team = team;
+
 		health = maxHealth;
 		healthSlider.maxValue = maxHealth;
 		healthSlider.value = health;
@@ -37,7 +56,8 @@ public class PlayerHealth : MonoBehaviour
 
 	public void Die()
 	{
-		Time.timeScale = 0;
+		//todo finish this
+		//Time.timeScale = 0;
 		Debug.Log("Player died");
 	}
 }
