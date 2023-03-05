@@ -1,8 +1,8 @@
 using UnityEngine;
 
 public interface IGun{
+	public UIGun UI { get; set; }
 	public Team Team { get ; set; }
-
 	public Transform GunTop { get; set; }
 	public void Shoot(Vector3 target) { }
 }
@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
 	[SerializeField] private float amountOfPotion;
 	private IGun weapon;
 	public Rigidbody weaponRBody;
+	public bool isPicked = false;
 	
 
 	private void Start()

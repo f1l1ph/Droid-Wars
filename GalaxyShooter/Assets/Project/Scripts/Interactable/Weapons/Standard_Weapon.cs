@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Standard_Weapon : MonoBehaviour, IGun
@@ -13,16 +10,18 @@ public class Standard_Weapon : MonoBehaviour, IGun
 	[SerializeField] private Bullet[] bullets;
 	private int activeIndex = 0;
 
+	public UIGun UI { get; set; }
+
 	public Team Team { get; set; }
 
 	private void Start()
 	{
+		UI = GetComponent<UIGun>();
 		GunTop = gunTop;
 	}
 
 	public void Shoot(Vector3 target)
 	{
-		//this is not working needs fix
 		bullets[activeIndex].transform.SetParent(null);
 		bullets[activeIndex].rb.velocity = Vector3.zero;
 		bullets[activeIndex].team = Team;
@@ -42,9 +41,9 @@ public class Standard_Weapon : MonoBehaviour, IGun
 	private IEnumerator DeactivateBulletOverTime(int bulletIndex) 
 	{
 		yield return new WaitForSeconds(2);
-		if (bullets[bulletIndex].gameObject.activeSelf)
-		{
-			bullets[bulletIndex].gameObject.SetActive(false);
-		}
+		
+		bullets[bulletIndex].transform.SetParent(transform);
+		bullets[bulletIndex].gameObject.SetActive(false);
+		
 	}
 }

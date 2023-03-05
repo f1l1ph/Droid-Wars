@@ -9,10 +9,6 @@ public class Bullet : MonoBehaviour
 	public Rigidbody					rb;
 	[HideInInspector] public Team		team;
 
-	private void Start()
-	{
-		//gameObject.SetActive(false);
-	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<IDamagable>(out IDamagable Idamagable))

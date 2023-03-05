@@ -49,6 +49,7 @@ public class PickUp : MonoBehaviour
 		if (!canInteract) { return; }
 		
 		if(!hit.transform.TryGetComponent<Interactable>(out var intr)) { return; }
+		if(hit.transform.GetComponent<Interactable>().isPicked) { return; }
 
 		intr.Interact(this);
 	}
@@ -56,10 +57,11 @@ public class PickUp : MonoBehaviour
 	public void PickUpWeapon(GameObject weaponObj)
 	{
 		weaponObj.transform.SetParent(inventory.transform);
-		weaponObj.transform.localPosition = Vector3.zero;
-		weaponObj.transform.localRotation = Quaternion.identity;
+		weaponObj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 		weaponObj.GetComponent<Rigidbody>().isKinematic = true;
 		weaponObj.GetComponent<Collider>().enabled = false;
+		weaponObj.GetComponent<Interactable>().isPicked = true;
 		inventory.AddToInventory(weaponObj);
+		
 	}
 }
