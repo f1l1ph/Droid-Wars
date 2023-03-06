@@ -164,6 +164,7 @@ MonoBehaviour:
   - {fileID: 6448054237338286633}
   - {fileID: 6448054236035032775}
   - {fileID: 6448054236691885073}
+  shootTime: 0.1
 --- !u!114 &2898427884844590107
 MonoBehaviour:
   m_ObjectHideFlags: 0

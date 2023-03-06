@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Standard_Weapon : MonoBehaviour, IGun
@@ -10,6 +11,10 @@ public class Standard_Weapon : MonoBehaviour, IGun
 	[SerializeField] private Bullet[] bullets;
 	private int activeIndex = 0;
 
+	[SerializeField] private float shootTime = 0.3f;
+	private float currentTime;
+	private bool canShoot = true;
+
 	public UIGun UI { get; set; }
 
 	public Team Team { get; set; }
@@ -18,10 +23,26 @@ public class Standard_Weapon : MonoBehaviour, IGun
 	{
 		UI = GetComponent<UIGun>();
 		GunTop = gunTop;
+		currentTime = shootTime;
+	}
+
+	private void FixedUpdate()
+	{
+		if(currentTime > 0 && !canShoot)
+		{
+			currentTime -= Time.fixedDeltaTime;
+		}
+		else if(currentTime <= 0)
+		{
+			canShoot = true;
+			currentTime = shootTime;
+		}
 	}
 
 	public void Shoot(Vector3 target)
 	{
+		if (!canShoot) { return; }
+		canShoot = false;
 		bullets[activeIndex].transform.SetParent(null);
 		bullets[activeIndex].rb.velocity = Vector3.zero;
 		bullets[activeIndex].team = Team;

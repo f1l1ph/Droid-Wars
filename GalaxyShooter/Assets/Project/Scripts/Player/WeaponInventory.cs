@@ -3,13 +3,14 @@ using UnityEngine.InputSystem;
 
 public class WeaponInventory : MonoBehaviour
 {
-	[SerializeField] private GameObject[]	guns;
-	[SerializeField] private PlayerInput	input;
-	[SerializeField] private Transform		shootTop;
-	[SerializeField] private Team			team;
-	[SerializeField] private PlayerHealth	shealth;
-	[SerializeField] private RectTransform	UIContainer;
+	[SerializeField] private GameObject[] guns;
+	[SerializeField] private PlayerInput input;
+	[SerializeField] private Transform shootTop;
+	[SerializeField] private Team team;
+	[SerializeField] private PlayerHealth shealth;
+	[SerializeField] private RectTransform UIContainer;
 
+	private bool canShoot = false;
 	private bool haveSelectedGun = false;
 	private IGun selectedGun;
 	private int selectedGunIndex;
@@ -21,14 +22,19 @@ public class WeaponInventory : MonoBehaviour
 		input.actions["SelectGun"].performed += Scroll_performed;
 		input.actions["DropSelectedGun"].performed += DropGun_performed;
 		input.actions["Fire"].performed += Fire_Performed;
-		input.actions["Fire"].canceled  += Fire_Canceled;
+		input.actions["Fire"].canceled += Fire_Canceled;
+	}
+
+	private void FixedUpdate()
+	{
+		if (canShoot) { Shoot(); }
 	}
 
 	public void AddToInventory(GameObject gun)
 	{
-		if(gun.GetComponent<IGun>() == null) { return; }
+		if (gun.GetComponent<IGun>() == null) { return; }
 
-		for (int i = 0; i < 3; i++) 
+		for (int i = 0; i < 3; i++)
 		{
 			if (guns[i] == null)
 			{
@@ -58,16 +64,16 @@ public class WeaponInventory : MonoBehaviour
 
 	public void SelectGun(int index)
 	{
-		if(index < 0 || index > 3) { return; }
+		if (index < 0 || index > 3) { return; }
 		//play animation or sound
-		for (int i = 0; i < 3; i++) 
+		for (int i = 0; i < 3; i++)
 		{
-			if(i == index)
+			if (i == index)
 			{
 				guns[i].SetActive(true);
 				selectedGunIndex = i;
 				selectedGun = guns[i].GetComponent<IGun>();
-				selectedGun.UI.weaponUI.localScale *= 1.1f;
+				selectedGun.UI.weaponUI.localScale = new Vector3(1.1f, 1.1f, 1.1f);
 			}
 			else
 			{
@@ -83,7 +89,7 @@ public class WeaponInventory : MonoBehaviour
 
 	private void DropGun(int index, bool selectAnother)
 	{
-		//delete from inventory, it is finaly working
+		//it is finaly working
 		guns[index].GetComponent<Interactable>().weaponRBody.isKinematic = false;
 		guns[index].GetComponent<Collider>().GetComponent<Collider>().enabled = true;
 		guns[index].GetComponent<UIGun>().weaponUI.transform.SetParent(guns[index].transform);
@@ -95,7 +101,7 @@ public class WeaponInventory : MonoBehaviour
 
 		if (selectAnother)
 		{
-			for (int i = 0; i < 3; i++) 
+			for (int i = 0; i < 3; i++)
 			{
 				if (guns[i] != null)
 				{
@@ -107,20 +113,19 @@ public class WeaponInventory : MonoBehaviour
 
 	private void Shoot()
 	{
-		if(!haveSelectedGun) { return; }
-
+		if (!haveSelectedGun) { return; }
 		selectedGun.Shoot(shootTop.position);
 	}
 
 	#region input actions
 	private void Fire_Performed(InputAction.CallbackContext obj)
 	{
-		Shoot();
+		canShoot = true;
 	}
 
 	private void Fire_Canceled(InputAction.CallbackContext obj)
 	{
-
+		canShoot = false;
 	}
 
 	private void DropGun_performed(InputAction.CallbackContext obj)
@@ -134,30 +139,45 @@ public class WeaponInventory : MonoBehaviour
 	{
 		if (!haveSelectedGun) { return; }
 		float value = obj.ReadValue<float>();
-		Debug.Log(value);
 		if (value > 0)
 		{
 			int index = selectedGunIndex;
 			index += 1;
 			if (index > 2) { index = 0; }
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				if (guns[index] != null)
 				{
+					if (index == selectedGunIndex) { return; }
 					SelectGun(index);
 					return;
 				}
-				else if (index >= 3)
+				if (index >= 3)
 				{
-					index = 0;
+					index = -1;
 				}
 				index++;
 			}
-
 		}
-		else if(value < 0)
+		else if (value < 0)
 		{
-
+			int index = selectedGunIndex;
+			index -= 1;
+			if (index < 0) { index = 2; }
+			for (int i = 3; i >= 0; i--)
+			{
+				if (guns[index] != null)
+				{
+					if(index == selectedGunIndex) { return; }
+					SelectGun(index);
+					return;
+				}
+				else if (index < 0)
+				{
+					index = 2;
+				}
+				index--;
+			}
 		}
 	}
 	#endregion
