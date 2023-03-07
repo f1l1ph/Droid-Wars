@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IGun{
 	public UIGun UI { get; set; }
-	public Team Team { get ; set; }
+	public TeamType Team { get ; set; }
 	public Transform GunTop { get; set; }
 	public void Shoot(Vector3 target) { }
 }

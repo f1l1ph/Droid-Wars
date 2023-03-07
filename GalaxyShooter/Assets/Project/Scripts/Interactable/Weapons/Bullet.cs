@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 	[SerializeField] private float		damage;
 	[SerializeField] private float		forceMultipler;
 	public Rigidbody					rb;
-	[HideInInspector] public Team		team;
+	[HideInInspector] public TeamType		team;
 
 	private void OnTriggerEnter(Collider other)
 	{

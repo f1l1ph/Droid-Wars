@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Team
+public enum TeamType
 {
 	Blue,
 	Red
@@ -9,7 +9,7 @@ public enum Team
 
 public interface IDamagable
 {
-	public Team Team { get; set; }
+	public TeamType Team { get; set; }
 
 	public void Heal(float healthAmount);
 	public void Hit(float damage);
@@ -17,8 +17,8 @@ public interface IDamagable
 
 public class PlayerHealth : MonoBehaviour,IDamagable
 {
-	public Team Team { get; set; }
-	[SerializeField] private Team team;
+	public TeamType Team { get; set; }
+	[SerializeField] private TeamType team;
 
 	[SerializeField] private float	maxHealth = 100;
 	[SerializeField] private Slider	healthSlider;

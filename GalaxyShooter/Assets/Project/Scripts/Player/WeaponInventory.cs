@@ -6,7 +6,7 @@ public class WeaponInventory : MonoBehaviour
 	[SerializeField] private GameObject[] guns;
 	[SerializeField] private PlayerInput input;
 	[SerializeField] private Transform shootTop;
-	[SerializeField] private Team team;
+	[SerializeField] private TeamType team;
 	[SerializeField] private PlayerHealth shealth;
 	[SerializeField] private RectTransform UIContainer;
 

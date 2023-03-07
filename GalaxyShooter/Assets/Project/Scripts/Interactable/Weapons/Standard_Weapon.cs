@@ -17,7 +17,7 @@ public class Standard_Weapon : MonoBehaviour, IGun
 
 	public UIGun UI { get; set; }
 
-	public Team Team { get; set; }
+	public TeamType Team { get; set; }
 
 	private void Start()
 	{

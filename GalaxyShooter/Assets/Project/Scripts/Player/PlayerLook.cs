@@ -15,7 +15,7 @@ public class PlayerLook : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Vector2 lookDelta = mouseSensitivity * Mouse.current.delta.ReadValue();
+		Vector2 lookDelta = mouseSensitivity * Mouse.current.delta.ReadValue() * Time.fixedDeltaTime;
 
 		float mouseX = lookDelta.x;
 		float mouseY = lookDelta.y;

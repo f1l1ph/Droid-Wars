@@ -62,6 +62,5 @@ public class PickUp : MonoBehaviour
 		weaponObj.GetComponent<Collider>().enabled = false;
 		weaponObj.GetComponent<Interactable>().isPicked = true;
 		inventory.AddToInventory(weaponObj);
-		
 	}
 }
