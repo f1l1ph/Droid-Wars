@@ -20,4 +20,16 @@ public class GameManager : MonoBehaviour
 			Instance = this;
 		}
 	}
+
+	public void AddPoints(TeamType team, int amount)
+	{
+		if(team == TeamType.Blue)
+		{
+			BluePoints += amount;
+		}
+		if(team == TeamType.Red)
+		{
+			RedPoints += amount;
+		}
+	}
 }

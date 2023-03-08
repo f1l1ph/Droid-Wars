@@ -7,10 +7,12 @@ public class Bullet : MonoBehaviour
 	[SerializeField] private float		damage;
 	[SerializeField] private float		forceMultipler;
 	public Rigidbody					rb;
-	[HideInInspector] public TeamType		team;
+	[HideInInspector] public TeamType	team;
 
 	private void OnTriggerEnter(Collider other)
 	{
+		if(other.GetComponent<Collider>().isTrigger == true) { return; }
+
 		if (other.TryGetComponent<IDamagable>(out IDamagable Idamagable))
 		{
 			if(Idamagable.Team == team) { return; }
