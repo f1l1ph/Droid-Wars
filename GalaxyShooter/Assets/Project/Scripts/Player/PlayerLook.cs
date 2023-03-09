@@ -13,9 +13,9 @@ public class PlayerLook : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	void FixedUpdate()
+	void Update()
 	{
-		Vector2 lookDelta = mouseSensitivity * Mouse.current.delta.ReadValue() * Time.fixedDeltaTime;
+		Vector2 lookDelta = mouseSensitivity * Time.deltaTime * Mouse.current.delta.ReadValue();
 
 		float mouseX = lookDelta.x;
 		float mouseY = lookDelta.y;
@@ -23,7 +23,7 @@ public class PlayerLook : MonoBehaviour
 		xRotation -= mouseY;
 		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-		transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+		transform.localRotation = Quaternion.Euler(xRotation , 0f, 0f);
 		playerBody.Rotate(Vector3.up * mouseX);
 	}
 }

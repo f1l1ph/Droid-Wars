@@ -24,9 +24,17 @@ public class PlayerHealth : MonoBehaviour,IDamagable
 	[SerializeField] private Slider	healthSlider;
 	private float					health;
 
+	[SerializeField] private float	maxEnergy = 100;
+	[SerializeField] private Slider energySlider;
+	public float Energy { get; private set; }
+
 	private void Start()
 	{
 		Team = team;
+
+		Energy = maxEnergy;
+		energySlider.maxValue = maxEnergy;
+		energySlider.value = Energy;
 
 		health = maxHealth;
 		healthSlider.maxValue = maxHealth;
@@ -52,6 +60,23 @@ public class PlayerHealth : MonoBehaviour,IDamagable
 		{
 			Die();
 		}
+	}
+
+	public void ConsumeEnergy(float amount) 
+	{
+		Energy -= amount;
+		UpdateEnergySlider();
+	}
+
+	public void AddEnergy(float amount) 
+	{
+		Energy += amount;
+		UpdateEnergySlider();
+	}
+
+	private void UpdateEnergySlider()
+	{
+		energySlider.value = Energy;
 	}
 
 	public void Die()

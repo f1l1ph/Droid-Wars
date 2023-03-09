@@ -1,16 +1,17 @@
 using UnityEngine;
 
 public interface IGun{
+	public float EnergyConsumption { get; set; }
 	public UIGun UI { get; set; }
 	public TeamType Team { get ; set; }
 	public Transform GunTop { get; set; }
-	public void Shoot(Vector3 target) { }
+	public bool Shoot(Vector3 target) { return true; }
 }
 
 public enum PotionType{
 	Health,
 	Armor,
-	Stamina
+	Energy
 }
 
 public class Interactable : MonoBehaviour
@@ -52,6 +53,12 @@ public class Interactable : MonoBehaviour
 		if (PickType == PickupType.Potion && PotionType == PotionType.Health)
 		{
 			sender.playerHealth.Heal(amountOfPotion);
+			gameObject.SetActive(false);
+		}
+		else if(PickType == PickupType.Potion && PotionType == PotionType.Energy)
+		{
+			sender.playerHealth.AddEnergy(amountOfPotion);
+			gameObject.SetActive(false);
 		}
 		else if(PickType == PickupType.Weapon)
 		{

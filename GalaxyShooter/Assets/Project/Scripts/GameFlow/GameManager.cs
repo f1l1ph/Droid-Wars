@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		StartGame();
+
 		if (Instance != null && Instance != this)
 		{
 			Destroy(this);
@@ -31,5 +33,10 @@ public class GameManager : MonoBehaviour
 		{
 			RedPoints += amount;
 		}
+	}
+
+	private void StartGame() 
+	{ 
+		
 	}
 }

@@ -7,7 +7,7 @@ public class WeaponInventory : MonoBehaviour
 	[SerializeField] private PlayerInput input;
 	[SerializeField] private Transform shootTop;
 	[SerializeField] private TeamType team;
-	[SerializeField] private PlayerHealth shealth;
+	[SerializeField] private PlayerHealth health;
 	[SerializeField] private RectTransform UIContainer;
 
 	private bool canShoot = false;
@@ -114,7 +114,11 @@ public class WeaponInventory : MonoBehaviour
 	private void Shoot()
 	{
 		if (!haveSelectedGun) { return; }
-		selectedGun.Shoot(shootTop.position);
+		if (health.Energy-selectedGun.EnergyConsumption < 0) { return; }
+		if (selectedGun.Shoot(shootTop.position))
+		{
+			health.ConsumeEnergy(selectedGun.EnergyConsumption);
+		}
 	}
 
 	#region input actions

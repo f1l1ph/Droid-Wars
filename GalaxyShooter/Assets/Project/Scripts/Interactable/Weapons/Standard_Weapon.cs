@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Standard_Weapon : MonoBehaviour, IGun
 {
+	public float EnergyConsumption { get; set; }
+	[SerializeField] private float energyConsumption;
 	[SerializeField] private Transform gunTop;
+	[SerializeField] private GameObject muzzleFlash;
 	public Transform GunTop { get; set; }
 
 	[SerializeField] private float bulletSpeed = 1;
@@ -21,6 +24,7 @@ public class Standard_Weapon : MonoBehaviour, IGun
 
 	private void Start()
 	{
+		EnergyConsumption = energyConsumption;
 		UI = GetComponent<UIGun>();
 		GunTop = gunTop;
 		currentTime = shootTime;
@@ -39,10 +43,14 @@ public class Standard_Weapon : MonoBehaviour, IGun
 		}
 	}
 
-	public void Shoot(Vector3 target)
+	public bool Shoot(Vector3 target)
 	{
-		if (!canShoot) { return; }
+		if (!canShoot) { return false; }
+		GameObject instance = Instantiate(muzzleFlash, gunTop.position, Quaternion.identity);
+		instance.transform.SetParent(transform);
+		Destroy(instance, 1f);
 		canShoot = false;
+
 		bullets[activeIndex].transform.SetParent(null);
 		bullets[activeIndex].rb.velocity = Vector3.zero;
 		bullets[activeIndex].team = Team;
@@ -57,6 +65,8 @@ public class Standard_Weapon : MonoBehaviour, IGun
 
 		activeIndex++;
 		if (activeIndex >= bullets.Length) { activeIndex = 0; }
+		return true;
+
 	}
 
 	private IEnumerator DeactivateBulletOverTime(int bulletIndex) 
