@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
 	public Rigidbody					rb;
 	[SerializeField] private GameObject particles;
 	[HideInInspector] public TeamType	team;
+	[HideInInspector] public Transform	gun;
 
 	private void OnCollisionEnter(Collision collision)
 	{
@@ -25,8 +26,23 @@ public class Bullet : MonoBehaviour
 		{
 			body.AddForce(transform.position * -forceMultipler, ForceMode.Impulse);
 		}
-		GameObject instance = Instantiate(particles, collision.contacts[0].point, Quaternion.identity);
-		Destroy(instance, 1.5f);
+		float distance = 0;
+		int point = 0;
+		for (int i = 0; i < collision.contacts.Length; i++) 
+		{
+			if(distance == 0)
+			{
+				distance = Vector3.Distance(collision.contacts[i].point, gun.position);
+			}
+
+			if(distance > Vector3.Distance( collision.contacts[i].point, gun.position))
+			{
+				distance = Vector3.Distance(collision.contacts[i].point, gun.position);
+				point = i;
+			}
+		}
+		GameObject instance = Instantiate(particles, collision.contacts[point].point, Quaternion.identity);
+		Destroy(instance, 1f);
 		rb.velocity = Vector3.zero;
 		gameObject.SetActive(false);
 	}

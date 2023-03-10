@@ -56,6 +56,7 @@ public class Standard_Weapon : MonoBehaviour, IGun
 		bullets[activeIndex].team = Team;
 		bullets[activeIndex].transform.position = gunTop.transform.position;
 		bullets[activeIndex].gameObject.SetActive(true);
+		bullets[activeIndex].gun = transform;
 		Vector3 direction = target - gunTop.position;
 		direction.Normalize();
 		bullets[activeIndex].rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);

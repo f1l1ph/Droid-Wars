@@ -1,8 +1,13 @@
+using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance { get; private set; }
+
+	[SerializeField] private TextMeshProUGUI text;
 
 	private int BluePoints;
 	private int RedPoints;
@@ -11,7 +16,7 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
-		StartGame();
+		StartCoroutine(CountdownCoroutine());
 
 		if (Instance != null && Instance != this)
 		{
@@ -35,8 +40,20 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void StartGame() 
-	{ 
-		
+	IEnumerator CountdownCoroutine()
+	{
+		int count = 3;
+		while (count > 0)
+		{
+			text.text = count.ToString();
+			yield return new WaitForSeconds(1f);
+			count--;
+		}
+
+		text.text = "Game started!";
+		yield return new WaitForSeconds(1f);
+		text.text = string.Empty;
+
+		// Start the game here
 	}
 }
