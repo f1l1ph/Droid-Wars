@@ -267,8 +267,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.014
-      minScalar: 0.007
+      scalar: 0.007
+      minScalar: 0.0035
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -590,7 +590,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -959,7 +959,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 100
+        scalar: 75
         minScalar: 150
         maxCurve:
           serializedVersion: 2

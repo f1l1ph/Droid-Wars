@@ -20,6 +20,7 @@ public class Point : MonoBehaviour
 			units.Add(damagable);
 		}
 	}
+
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.transform.GetComponent<IDamagable>() != null)
@@ -43,8 +44,8 @@ public class Point : MonoBehaviour
 		int blue = 0;
 		int red = 0;
 
-		if (units != null) 
-		{ 
+		if (units != null)
+		{
 			foreach (var unit in units)
 			{
 				if (unit.Team == TeamType.Blue)
@@ -55,22 +56,23 @@ public class Point : MonoBehaviour
 				{
 					red++;
 				}
-			} 
+			}
+			
 		}
-		if(Team == TeamType.Blue)
+		if (Team == TeamType.Blue)
 		{
 			takenValue += blue;
 			takenValue -= red;
 		}
-		if(Team == TeamType.Red)
+		if (Team == TeamType.Red)
 		{
 			takenValue += red;
 			takenValue -= blue;
 		}
 
-		takenValue = Mathf.Min(takenValue, 100);
+		takenValue = Mathf.Min(takenValue, 20);
 
-		if (takenValue > 60) { GameManager.Instance.AddPoints(Team, 1); }
+		if (takenValue > 10) { GameManager.Instance.AddPoints(Team, 1); }
 
 		if (takenValue == 0)
 		{
@@ -80,9 +82,9 @@ public class Point : MonoBehaviour
 		{
 			Taken = true;
 		}
-		if(takenValue < 0)
-		{ 
-			if(Team == TeamType.Blue)
+		if (takenValue < 0)
+		{
+			if (Team == TeamType.Blue)
 			{
 				Team = TeamType.Red;
 			}
@@ -92,8 +94,25 @@ public class Point : MonoBehaviour
 			}
 			takenValue *= -1;
 		}
-		yield return new WaitForSeconds(1);
 
+		if (units != null) 
+		{
+			List<IDamagable> unitsToDestroy = new List<IDamagable>();
+
+			foreach (var unit in units)
+			{
+				if (unit.isDeath)
+				{
+					unitsToDestroy.Add(unit);
+				}
+			} 
+			foreach(var unit in unitsToDestroy)
+			{
+				units.Remove(unit);
+			}
+		}
+
+		yield return new WaitForSeconds(1);
 		StartCoroutine(CheckPoints());
 	}
 }

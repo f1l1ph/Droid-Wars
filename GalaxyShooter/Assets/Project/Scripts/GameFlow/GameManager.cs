@@ -9,15 +9,17 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private TextMeshProUGUI text;
 
-	private int BluePoints;
-	private int RedPoints;
+	[SerializeField] private TextMeshProUGUI blueText;
+	[SerializeField] private TextMeshProUGUI redText;
+
+	private int BluePoints = 0;
+	private int RedPoints = 0;
 
 	[SerializeField] private Point[] points;
-
+	public Point[] Points { get; private set; }
+	
 	private void Awake()
 	{
-		StartCoroutine(CountdownCoroutine());
-
 		if (Instance != null && Instance != this)
 		{
 			Destroy(this);
@@ -26,6 +28,10 @@ public class GameManager : MonoBehaviour
 		{
 			Instance = this;
 		}
+		Points = points;
+
+		UpdateUI();
+		StartCoroutine(CountdownCoroutine());		
 	}
 
 	public void AddPoints(TeamType team, int amount)
@@ -38,6 +44,14 @@ public class GameManager : MonoBehaviour
 		{
 			RedPoints += amount;
 		}
+		Debug.Log(team + ":" + amount);
+		UpdateUI();
+	}
+
+	private void UpdateUI()
+	{
+		blueText.text = BluePoints.ToString();
+		redText.text  = RedPoints.ToString();
 	}
 
 	IEnumerator CountdownCoroutine()

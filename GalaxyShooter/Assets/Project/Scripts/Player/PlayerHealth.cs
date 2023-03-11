@@ -9,6 +9,8 @@ public enum TeamType
 
 public interface IDamagable
 {
+	public bool isDeath { get; set; }
+
 	public TeamType Team { get; set; }
 
 	public void Heal(float healthAmount);
@@ -17,6 +19,8 @@ public interface IDamagable
 
 public class PlayerHealth : MonoBehaviour,IDamagable
 {
+	public bool isDeath { get; set; }
+
 	public TeamType Team { get; set; }
 	[SerializeField] private TeamType team;
 
@@ -31,6 +35,7 @@ public class PlayerHealth : MonoBehaviour,IDamagable
 	private void Start()
 	{
 		Team = team;
+		isDeath = false;
 
 		Energy = maxEnergy;
 		energySlider.maxValue = maxEnergy;
@@ -83,6 +88,7 @@ public class PlayerHealth : MonoBehaviour,IDamagable
 	{
 		//todo finish this
 		//Time.timeScale = 0;
+		isDeath = true;
 		Debug.Log("Player died");
 	}
 }
