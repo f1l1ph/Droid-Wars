@@ -7,11 +7,16 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance { get; private set; }
 
+	public delegate void NextWaveEvent();
+	public static event NextWaveEvent OnNextWaveEvenet;
+
 	[SerializeField] private TextMeshProUGUI text;
 
 	[SerializeField] private TextMeshProUGUI blueText;
 	[SerializeField] private TextMeshProUGUI redText;
 
+	[SerializeField] private int maxPoints;
+	[SerializeField] private float timeBetweenWaves = 15;
 	private int BluePoints = 0;
 	private int RedPoints = 0;
 
@@ -46,6 +51,19 @@ public class GameManager : MonoBehaviour
 		}
 		Debug.Log(team + ":" + amount);
 		UpdateUI();
+		CheckPoints();
+	}
+
+	private void CheckPoints()
+	{
+		if (BluePoints >= maxPoints)
+		{
+			Debug.Log("blue team has won");
+		}
+		if(RedPoints >= maxPoints)
+		{
+			Debug.Log("red team has won");
+		}
 	}
 
 	private void UpdateUI()
@@ -68,6 +86,15 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		text.text = string.Empty;
 
+		StartCoroutine(StartNextWave());
 		// Start the game here
 	}
+
+	IEnumerator StartNextWave()
+	{
+		OnNextWaveEvenet?.Invoke();
+		yield return new WaitForSeconds(timeBetweenWaves);
+		StartCoroutine(StartNextWave());
+	}
+
 }

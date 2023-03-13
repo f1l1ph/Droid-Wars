@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   changer: {fileID: 6004885661812503069}
+  pointPower: 1
 --- !u!135 &6004885661337989037
 SphereCollider:
   m_ObjectHideFlags: 0

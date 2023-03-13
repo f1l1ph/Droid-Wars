@@ -9,6 +9,8 @@ public class Point : MonoBehaviour
 	private int takenValue = 0;
 	[SerializeField] private TeamColorChanger changer;
 
+	[SerializeField] private int pointPower = 1;
+
 	private List<IDamagable> units = new();
 
 	private void OnTriggerEnter(Collider other)
@@ -72,7 +74,7 @@ public class Point : MonoBehaviour
 
 		takenValue = Mathf.Min(takenValue, 20);
 
-		if (takenValue > 10) { GameManager.Instance.AddPoints(Team, 1); }
+		if (takenValue > 10) { GameManager.Instance.AddPoints(Team, pointPower); }
 
 		if (takenValue == 0)
 		{
